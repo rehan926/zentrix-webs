@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zentrix - AI Consulting</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f0f0f;
+      color: #ffffff;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .content-container {
+      position: relative;
+      z-index: 1;
+    }
+    .section-title {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #facc15;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .content-card {
+      background: linear-gradient(135deg, #1f2937, #374151);
+      border: 1px solid #facc15;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .content-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(250, 204, 21, 0.5);
+    }
+    .cta-button {
+      background-color: #facc15;
+      color: #0f0f0f;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .cta-button:hover {
+      background-color: #eab308;
+      transform: scale(1.05);
+    }
+    .hero-bg {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(250,204,21,0.2) 0%, transparent 70%);
+      opacity: 0.5;
+      animation: pulse 5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.3; }
+      100% { transform: scale(1); opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="content-container min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-gray-900/90 backdrop-blur-md z-50">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="text-3xl font-extrabold text-yellow-400">Zentrix</div>
+        <div class="space-x-6">
+          <a href="index.html#home" class="text-gray-300 hover:text-yellow-400">Home</a>
+          <a href="index.html#services" class="text-gray-300 hover:text-yellow-400">Services</a>
+          <a href="index.html#contact" class="text-gray-300 hover:text-yellow-400">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="hero-bg min-h-screen flex items-center justify-center py-20">
+      <div class="max-w-5xl mx-auto px-4">
+        <h1 class="section-title">AI Consulting Services</h1>
+        <div class="content-card animate-card">
+          <h2 class="text-2xl font-semibold text-yellow-400 mb-4">Transform Your Business with AI</h2>
+          <p class="text-gray-300 mb-6">Our AI consulting services empower businesses to leverage artificial intelligence for enhanced efficiency, innovation, and growth. From strategy development to implementation, we provide end-to-end solutions tailored to your needs.</p>
+        </div>
+        <div class="content-card animate-card">
+          <h2 class="text-2xl font-semibold text-yellow-400 mb-4">Our Expertise</h2>
+          <ul class="text-gray-300 list-disc list-inside mb-6">
+            <li>Machine Learning Model Development</li>
+            <li>Data Analytics and Insights</li>
+            <li>AI Strategy and Roadmapping</li>
+            <li>Automation and Process Optimization</li>
+          </ul>
+        </div>
+        <div class="content-card animate-card">
+          <h2 class="text-2xl font-semibold text-yellow-400 mb-4">Why Choose Us?</h2>
+          <p class="text-gray-300 mb-6">With a team of experienced AI professionals, we deliver cutting-edge solutions that drive measurable results. Our client-centric approach ensures your business goals are at the forefront of our strategies.</p>
+        </div>
+        <div class="text-center">
+          <a href="index.html#contact" class="cta-button">Get Started</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Particles setup
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80 },
+        color: { value: "#facc15" },
+        size: { value: 3, random: true },
+        move: { enable: true, speed: 3 },
+        line_linked: { enable: true, color: "#facc15", opacity: 0.4 }
+      }
+    });
+
+    // GSAP Animations for cards
+    document.addEventListener('DOMContentLoaded', () => {
+      gsap.from(".animate-card", {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        stagger: 0.3,
+        ease: "power3.out"
+      });
+    });
+  </script>
+</body>
+</html>

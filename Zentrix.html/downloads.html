@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignments Download | Zentrix</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1f2937);
+      font-family: 'Inter', sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+    .download-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    .download-btn {
+      margin-top: 2rem;
+      background-color: #facc15;
+      color: #111;
+      font-weight: bold;
+      padding: 12px 32px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(250, 204, 21, 0.4);
+    }
+    .download-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 25px rgba(250, 204, 21, 0.6);
+      background-color: #eab308;
+    }
+  </style>
+</head>
+<body>
+  <div class="download-container">
+    <h1 class="text-5xl font-extrabold text-yellow-400 mb-4">Assignments Download Here</h1>
+    <p class="text-gray-300 text-lg mb-6">Click below to download your latest assignments.</p>
+
+    <a href="#" class="download-btn">📥 Download Now</a>
+
+    <a href="index.html" class="mt-10 text-yellow-400 underline hover:text-yellow-300">← Back to Home</a>
+  </div>
+
+  <script>
+    // Simple fade-in animation
+    gsap.from(".download-container", { opacity: 0, y: 50, duration: 1.5, ease: "power3.out" });
+  </script>
+</body>
+</html>
