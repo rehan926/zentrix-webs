@@ -22,8 +22,8 @@
       color: white;
       margin: 0;
       padding: 0;
-      min-height: 500vh;
-      width: 500vw; /* Full viewport width */
+      min-height: 100vh;
+      width: 100vw; /* Full viewport width */
       overflow-x: hidden;
     }
 
