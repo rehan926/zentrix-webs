@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zentrix - Unleash the Future</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -23,28 +23,28 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      width: 100%;
+      width: 100vw; /* Full viewport width */
       overflow-x: hidden;
     }
 
     /* LOGIN PAGE */
     #login-page {
       min-height: 100vh;
+      width: 100vw; /* Full viewport width */
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #1a1a1a, #2d3748);
       position: relative;
       overflow: hidden;
-      width: 100%;
     }
 
     #particles-js, #downloads-particles, #home-particles {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw; /* Full viewport width */
+      height: 100%; /* Match parent height */
       z-index: 0;
     }
 
@@ -52,13 +52,14 @@
       z-index: 1;
       opacity: 0;
       transform: translateY(40px);
-      width: 100%;
+      width: 90%; /* Responsive width */
       max-width: 500px; /* Prevent over-stretching on large screens */
+      margin: 0 auto; /* Center horizontally */
     }
 
     #main-content, #downloads-page {
       display: none;
-      width: 100%;
+      width: 100vw; /* Full viewport width */
     }
 
     #main-content.active, #downloads-page.active {
@@ -126,9 +127,10 @@
       background: radial-gradient(circle at top left, #111, #0f0f0f 70%);
       text-align: center;
       min-height: 100vh;
-      padding-top: 10%;
+      width: 100vw; /* Full viewport width */
+      padding: 10% 5%; /* Responsive padding */
+      box-sizing: border-box;
       overflow: hidden;
-      width: 100%;
     }
 
     .download-container {
@@ -187,11 +189,14 @@
       position: relative;
       overflow: hidden;
       min-height: 100vh;
-      width: 100%;
+      width: 100vw; /* Full viewport width */
     }
 
     .hero-content {
       z-index: 1;
+      width: 90%; /* Responsive width */
+      max-width: 4xl; /* Match Tailwind's max-w-4xl */
+      margin: 0 auto; /* Center horizontally */
     }
 
     .hero-subtitle {
@@ -210,6 +215,11 @@
     .cta-secondary:hover {
       background: #facc15;
       color: #0f0f0f;
+    }
+
+    /* Ensure nav spans full width */
+    nav {
+      width: 100vw; /* Full viewport width */
     }
   </style>
 </head>
@@ -512,4 +522,3 @@
   </script>
 </body>
 </html>
-
