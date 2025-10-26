@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Zentrix - Unleash the Future</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -12,17 +12,21 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
       font-family: 'Inter', sans-serif;
       background-color: #0f0f0f;
       color: white;
-      margin: 0;
-      overflow-x: hidden;
     }
 
     /* LOGIN PAGE */
     #login-page {
       min-height: 100vh;
+      width: 100vw;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -42,6 +46,9 @@
       z-index: 1;
       opacity: 0;
       transform: translateY(40px);
+      width: 90%;
+      max-width: 500px; /* Increased for better scaling on larger screens */
+      padding: 1rem;
     }
 
     #main-content, #downloads-page {
@@ -113,14 +120,20 @@
       background: radial-gradient(circle at top left, #111, #0f0f0f 70%);
       text-align: center;
       min-height: 100vh;
-      padding-top: 10%;
+      width: 100vw;
+      padding: 5% 2%;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .download-container {
       position: relative;
       z-index: 1;
       animation: floatText 5s ease-in-out infinite;
+      width: 90%;
+      max-width: 600px;
     }
 
     @keyframes floatText {
@@ -171,11 +184,19 @@
     /* Premium Styles */
     #home {
       position: relative;
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
 
     .hero-content {
       z-index: 1;
+      width: 90%;
+      max-width: 1200px;
+      padding: 1rem;
     }
 
     .hero-subtitle {
@@ -195,13 +216,37 @@
       background: #facc15;
       color: #0f0f0f;
     }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-content, .login-container, .download-container {
+        width: 95%;
+        padding: 0.5rem;
+      }
+
+      .text-7xl {
+        font-size: 3rem;
+      }
+
+      .text-5xl {
+        font-size: 2.5rem;
+      }
+
+      .text-4xl {
+        font-size: 2rem;
+      }
+
+      .service-option, .feature-card {
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- LOGIN PAGE -->
   <section id="login-page">
     <div id="particles-js"></div>
-    <div class="login-container max-w-md mx-auto px-4 text-center">
+    <div class="login-container mx-auto px-4 text-center">
       <h1 class="text-5xl font-extrabold text-yellow-400 mb-8">Zentrix Login</h1>
       <div class="bg-gray-900 p-8 rounded-lg shadow-2xl">
         <form id="login-form" class="space-y-6">
@@ -216,7 +261,7 @@
   <!-- MAIN PAGE -->
   <div id="main-content">
     <nav class="fixed top-0 left-0 w-full bg-gray-900/90 backdrop-blur-md z-50">
-      <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="w-full max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-3xl font-extrabold text-yellow-400">Zentrix</div>
         <div class="space-x-6">
           <a href="#home" class="text-gray-300 hover:text-yellow-400">Home</a>
@@ -229,9 +274,9 @@
       </div>
     </nav>
 
-    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-center">
+    <section id="home" class="flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-center">
       <div id="home-particles"></div>
-      <div class="hero-content max-w-4xl mx-auto px-4">
+      <div class="hero-content mx-auto px-4">
         <h1 class="text-7xl font-extrabold text-yellow-400 mb-6" id="hero-title">Welcome to Zentrix</h1>
         <p class="hero-subtitle">Empowering innovation with cutting-edge technology solutions.</p>
         <p class="text-xl text-gray-300 mb-10"><span id="typed-text"></span></p>
@@ -242,7 +287,7 @@
 
     <section id="about" class="py-20 bg-gray-800 text-center">
       <h2 class="text-4xl font-bold text-yellow-400 mb-12">About Us</h2>
-      <div class="max-w-4xl mx-auto px-4 text-gray-300 text-lg">
+      <div class="w-full max-w-4xl mx-auto px-4 text-gray-300 text-lg">
         <p class="mb-6">Zentrix is a leading provider of innovative technology solutions, dedicated to helping businesses thrive in the digital age.</p>
         <p class="mb-6">Our team of experts combines cutting-edge technology with creative thinking to deliver exceptional results.</p>
         <p>Join us on our journey to unleash the future of innovation THE "CEO" OF ZENTRIX MR RIHAN ATIK (BIHAR) INDIA, CONTACT NO-62068821XX EMAIL-RIHANATIK13@GMAIL.COM </p>
@@ -251,7 +296,7 @@
 
     <section id="features" class="py-20 bg-gray-800 text-center">
       <h2 class="text-4xl font-bold text-yellow-400 mb-12">Our Features</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto px-4">
         <div class="feature-card p-8 rounded-lg"><h3 class="text-2xl mb-4">Innovative Tech</h3><p>Cutting-edge solutions for tomorrow.</p></div>
         <div class="feature-card p-8 rounded-lg"><h3 class="text-2xl mb-4">User Focused</h3><p>Designs that truly understand users.</p></div>
         <div class="feature-card p-8 rounded-lg"><h3 class="text-2xl mb-4">Secure & Reliable</h3><p>Built for trust and scalability.</p></div>
@@ -260,7 +305,7 @@
 
     <section id="services" class="py-20 text-center bg-gray-900">
       <h2 class="text-4xl font-bold text-yellow-400 mb-12">Our Services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto px-4">
         <div class="service-option">
           <h3 class="text-2xl mb-4 text-yellow-400">SER 1</h3>
           <p class="mb-6 text-gray-300">ALL ASSIGNMENTS PRACTICLE/LAB.</p>
@@ -311,7 +356,7 @@
 
     <section id="pricing" class="py-20 bg-gray-800 text-center">
       <h2 class="text-4xl font-bold text-yellow-400 mb-12">Pricing Plans</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto px-4">
         <div class="service-option">
           <h3 class="text-2xl mb-4 text-yellow-400">Basic</h3>
           <p class="mb-6 text-gray-300">$99/month - Essential features for startups.</p>
@@ -332,7 +377,7 @@
 
     <section id="contact" class="py-20 bg-gray-800 text-center">
       <h2 class="text-4xl font-bold text-yellow-400 mb-12">Contact Us</h2>
-      <form class="max-w-md mx-auto space-y-6">
+      <form class="w-full max-w-md mx-auto space-y-6">
         <input type="text" placeholder="Your Name" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-lg text-white">
         <input type="email" placeholder="Your Email" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-lg text-white">
         <textarea placeholder="Your Message" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-lg text-white h-32"></textarea>
@@ -344,7 +389,7 @@
   <!-- DOWNLOADS PAGE -->
   <section id="downloads-page">
     <div id="downloads-particles"></div>
-    <div class="download-container">
+    <div class="download-container mx-auto text-center">
       <h1 class="text-5xl font-extrabold text-yellow-400 mb-4">Assignments Download Here</h1>
       <p class="text-gray-300 text-lg mb-6">Click below to download your latest assignments.</p>
       <a href="BCA_lab.pdf" download class="download-btn" id="download-btn">📥 Download Now</a><br>
@@ -367,7 +412,12 @@
       typeSpeed: 50, backSpeed: 30, loop: true
     });
 
-    window.onload = () => gsap.to(".login-container", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" });
+    window.onload = () => {
+      gsap.to(".login-container", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" });
+      // Ensure full-screen rendering on load
+      document.documentElement.style.height = '100%';
+      document.body.style.height = '100%';
+    };
 
     document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
@@ -469,6 +519,12 @@
       document.getElementById("downloads-page").classList.remove("active");
       document.getElementById("main-content").style.display = "block";
       gsap.from("#main-content", { opacity: 0, duration: 1.2, ease: "power4.out" });
+    });
+
+    // Ensure full-screen on resize
+    window.addEventListener('resize', () => {
+      document.documentElement.style.height = '100%';
+      document.body.style.height = '100%';
     });
   </script>
 </body>
