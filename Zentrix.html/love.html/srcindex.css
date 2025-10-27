@@ -1,0 +1,393 @@
+
+import React, { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import confetti from "canvas-confetti";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import Navigation from "@/components/Navigation";
+import ser1Image from "@/assets/ser1-image.jpg";
+import ser2Pdf from "@/assets/ser2-students-list.pdf";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Index: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showDownloads, setShowDownloads] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const aboutRef = useRef<HTMLElement | null>(null);
+  const featuresRef = useRef<HTMLElement | null>(null);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const pricingRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (isLoggedIn && heroRef.current) {
+      gsap.from(heroRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
+  }, [isLoggedIn]);
+
+  // Reusable confetti helper
+  const playConfetti = (durationMs = 2000) => {
+    const duration = durationMs;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 6,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ["#facc15", "#eab308", "#fef3c7"],
+      });
+      confetti({
+        particleCount: 6,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ["#facc15", "#eab308", "#fef3c7"],
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+
+    frame();
+  };
+
+  // Reusable download helper (works with imported asset URLs)
+  const triggerDownload = (url: string, filename: string) => {
+    // If the url is a blob or data URL you can still use an anchor click.
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    // For Firefox it needs to be in DOM
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address!");
+      return;
+    }
+
+    gsap.to(".login-container", {
+      opacity: 0,
+      scale: 0.95,
+      duration: 0.8,
+      ease: "power4.inOut",
+      onComplete: () => {
+        setIsLoggedIn(true);
+        toast.success("Welcome to Zentrix!");
+      },
+    });
+  };
+
+  const handleDownload = () => {
+    toast.success("Download started...");
+    playConfetti(2000);
+  };
+
+  const handleSer1Download = () => {
+    triggerDownload(ser1Image as unknown as string, "zentrix-ser1-assignment.jpg");
+    toast.success("Image download started!");
+    playConfetti(2000);
+  };
+
+  const handleSer2Download = () => {
+    triggerDownload(ser2Pdf as unknown as string, "BCA-Students-List.pdf");
+    toast.success("PDF download started!");
+    playConfetti(2000);
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-white">
+        <div className="login-container w-full max-w-md mx-auto px-4 z-10 animate-fade-in-up">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-primary mb-8 text-center glow-text">
+            Zentrix Login
+          </h1>
+          <Card className="glass-effect p-8 shadow-2xl">
+            <form onSubmit={handleLogin} className="space-y-6">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="bg-secondary/50 border-border focus:border-primary transition-all"
+                required
+              />
+              <Input
+                type="password"
+                placeholder="Enter any password"
+                className="bg-secondary/50 border-border focus:border-primary transition-all"
+              />
+              <Button
+                type="submit"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 animate-glow-pulse"
+              >
+                Login
+              </Button>
+            </form>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (showDownloads) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden text-center px-4 bg-white">
+        <div className="z-10 animate-float">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-primary mb-4 glow-text">
+            Assignments Download Here
+          </h1>
+          <p className="text-muted-foreground text-lg md:text-xl mb-8">
+            Click below to download your latest assignments.
+          </p>
+          <Button
+            onClick={handleDownload}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-lg px-12 py-6 mb-8 animate-glow-pulse"
+          >
+            📥 Download Now
+          </Button>
+          <br />
+          <Button
+            onClick={() => setShowDownloads(false)}
+            variant="outline"
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            ← Back to Home
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const features = [
+    {
+      title: "Innovative Tech",
+      description: "Cutting-edge solutions for tomorrow.",
+    },
+    {
+      title: "User Focused",
+      description: "Designs that truly understand users.",
+    },
+    {
+      title: "Secure & Reliable",
+      description: "Built for trust and scalability.",
+    },
+  ];
+
+  const services = [
+    { title: "SER 1", description: "ALL ASSIGNMENTS PRACTICAL/LAB." },
+    { title: "SER 2", description: "High-quality web solutions built to scale." },
+    { title: "SER 3", description: "Empower your business with modern cloud tech." },
+    { title: "SER 4", description: "Custom mobile apps for iOS and Android." },
+    { title: "SER 5", description: "Leverage AI to enhance your business processes." },
+    { title: "SER 6", description: "Protect your digital assets with top-tier security." },
+    { title: "SER 7", description: "Unlock insights with advanced data analytics." },
+    { title: "SER 8", description: "Craft intuitive and engaging user interfaces." },
+    { title: "SER 9", description: "Strategic IT solutions for your business growth." },
+  ];
+
+  const pricingPlans = [
+    {
+      title: "Basic",
+      price: "$99/month",
+      description: "Essential features for startups.",
+    },
+    {
+      title: "Pro",
+      price: "$299/month",
+      description: "Advanced tools for growing businesses.",
+    },
+    {
+      title: "Enterprise",
+      price: "Custom",
+      description: "Tailored solutions for large enterprises.",
+    },
+  ];
+
+  return (
+    <div className="w-full min-h-screen overflow-x-hidden bg-white">
+      <Navigation />
+
+      {/* Hero Section */}
+      <section
+        id="home"
+        ref={heroRef}
+        className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
+      >
+        <div className="max-w-5xl mx-auto px-4 text-center z-10">
+          <h1 className="text-6xl md:text-8xl font-extrabold text-primary mb-6 glow-text animate-fade-in">
+            Welcome to Zentrix
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-4 animate-fade-in-up">
+            Empowering innovation with cutting-edge technology solutions.
+          </p>
+          <p className="text-lg md:text-xl text-foreground/80 mb-10 animate-fade-in-up">
+            Your journey to innovation starts here.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in">
+            <Button
+              onClick={() => {
+                const element = document.getElementById("services");
+                element?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8 py-6"
+            >
+              Explore Services
+            </Button>
+            <Button
+              onClick={() => {
+                const element = document.getElementById("contact");
+                element?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              variant="outline"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold text-lg px-8 py-6"
+            >
+              Get in Touch
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" ref={aboutRef} className="py-20 md:py-32 bg-white text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12 glow-text">
+            About Us
+          </h2>
+          <div className="text-muted-foreground text-lg md:text-xl space-y-6">
+            <p>
+              Zentrix is a leading provider of innovative technology solutions,
+              dedicated to helping businesses thrive in the digital age.
+            </p>
+            <p>
+              Our team of experts combines cutting-edge technology with creative
+              thinking to deliver exceptional results.
+            </p>
+            <p className="text-foreground/90 font-medium">
+              Join us on our journey to unleash the future of innovation.
+            </p>
+            {/* NOTE: You previously had a line with personal contact details here.
+                Consider removing or masking that if this is public-facing. */}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" ref={featuresRef} className="py-20 md:py-32 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12 glow-text">Our Features</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+          {features.map((feature, index) => (
+            <Card key={index} className="glass-effect p-8 border-primary/30">
+              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">{feature.title}</h3>
+              <p className="text-muted-foreground text-lg">{feature.description}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" ref={servicesRef} className="py-20 md:py-32 bg-white text-center">
+        <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12 glow-text">Our Services</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+          {services.map((service, index) => (
+            <Card key={index} className="glass-effect p-6">
+              <h3 className="text-2xl font-bold text-primary mb-4">{service.title}</h3>
+              <p className="text-muted-foreground mb-6">{service.description}</p>
+              <Button
+                onClick={() => {
+                  if (service.title === "SER 1") {
+                    handleSer1Download();
+                  } else if (service.title === "SER 2") {
+                    handleSer2Download();
+                  } else {
+                    setShowDownloads(true);
+                  }
+                }}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+              >
+                Download Brochure
+              </Button>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" ref={pricingRef} className="py-20 md:py-32 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12 glow-text">Pricing Plans</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+          {pricingPlans.map((plan, index) => (
+            <Card key={index} className="glass-effect p-8 border-primary/30">
+              <h3 className="text-3xl font-bold text-primary mb-4">{plan.title}</h3>
+              <p className="text-4xl font-extrabold text-foreground mb-4">{plan.price}</p>
+              <p className="text-muted-foreground mb-6">{plan.description}</p>
+              <Button
+                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold w-full"
+              >
+                {plan.price === "Custom" ? "Contact Us" : "Get Started"}
+              </Button>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 md:py-32 bg-white text-center">
+        <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12 glow-text">Contact Us</h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            toast.success("Message sent successfully! We'll get back to you soon.");
+          }}
+          className="max-w-md mx-auto px-4 space-y-6"
+        >
+          <Input
+            type="text"
+            placeholder="Your Name"
+            className="bg-secondary/50 border-border focus:border-primary transition-all"
+            required
+          />
+          <Input
+            type="email"
+            placeholder="Your Email"
+            className="bg-secondary/50 border-border focus:border-primary transition-all"
+            required
+          />
+          <Textarea
+            placeholder="Your Message"
+            className="bg-secondary/50 border-border focus:border-primary transition-all h-32"
+            required
+          />
+          <Button
+            type="submit"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 hover-lift"
+          >
+            Send Message
+          </Button>
+        </form>
+      </section>
+    </div>
+  );
+};
+
+export default Index;
