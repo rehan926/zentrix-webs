@@ -22,10 +22,9 @@
       color: #000000;
       margin: 0;
       overflow-x: hidden;
-      scroll-behavior: smooth; /* native smooth scrolling fallback */
+      scroll-behavior: smooth;
     }
 
-    /* Particles layers */
     #particles-js, #downloads-particles, #home-particles {
       position: absolute;
       width: 100%;
@@ -36,10 +35,8 @@
       pointer-events: none;
     }
 
-    /* Login container */
     .login-container { z-index: 1; opacity: 0; transform: translateY(40px); }
 
-    /* main content hidden until login */
     #main-content, #downloads-page { display: none; }
     #main-content.active, #downloads-page.active { display: block; }
 
@@ -84,7 +81,6 @@
     }
     .pdf-download:hover { background-color: #eab308; transform: scale(1.05) translateY(-2px); }
 
-    /* Downloads page */
     #downloads-page { position: relative; background: #ffffff; text-align: center; min-height: 100vh; padding-top: 10%; overflow: hidden; }
     .download-container { position: relative; z-index: 1; animation: floatText 5s ease-in-out infinite; }
     @keyframes floatText { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
@@ -117,14 +113,12 @@
       z-index: 1000;
     }
 
-    /* hero */
     #home { position: relative; overflow: hidden; min-height: 75vh; }
     .hero-content { z-index: 1; }
     .hero-subtitle { font-size: 1.25rem; color: #4b5563; margin-bottom: 1.25rem; }
     .cta-secondary { margin-left: 1rem; background: transparent; border: 2px solid #facc15; color: #facc15; }
     .cta-secondary:hover { background: #facc15; color: #0f0f0f; }
 
-    /* Floating Explore button */
     .explore-fab {
       position: fixed;
       right: 20px;
@@ -152,7 +146,6 @@
       100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
     }
 
-    /* small responsive tweaks */
     @media (max-width: 640px) {
       .hero-subtitle{ font-size: 1rem; }
       .text-7xl { font-size: 2.25rem; }
@@ -160,7 +153,6 @@
   </style>
 </head>
 <body>
-  <!-- LOGIN PAGE -->
   <section id="login-page" class="min-h-screen flex items-center justify-center bg-white relative overflow-hidden">
     <div id="particles-js"></div>
 
@@ -177,7 +169,6 @@
     </div>
   </section>
 
-  <!-- MAIN PAGE -->
   <div id="main-content" aria-hidden="true">
     <nav class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md z-50">
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -190,14 +181,10 @@
           <a href="#pricing" class="text-gray-700 hover:text-yellow-400">Pricing</a>
           <a href="#contact" class="text-gray-700 hover:text-yellow-400">Contact</a>
         </div>
-
-        <!-- small screens: simple menu button (keeps minimal) -->
         <div class="sm:hidden">
           <button id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" class="text-gray-700 focus:outline-none">Menu</button>
         </div>
       </div>
-
-      <!-- mobile menu (hidden by default) -->
       <div id="mobile-menu" class="hidden px-4 pb-4 sm:hidden">
         <a class="block py-2 text-gray-700" href="#home">Home</a>
         <a class="block py-2 text-gray-700" href="#about">About</a>
@@ -210,21 +197,14 @@
 
     <section id="home" class="min-h-screen flex items-center justify-center bg-white text-center relative">
       <div id="home-particles"></div>
-
       <div class="hero-content max-w-4xl mx-auto px-4 py-24">
         <h1 class="text-7xl font-extrabold text-yellow-400 mb-6" id="hero-title">Welcome to Zentrix</h1>
         <p class="hero-subtitle">Empowering innovation with cutting-edge technology solutions.</p>
         <p class="text-xl text-gray-700 mb-8"><span id="typed-text"></span></p>
-
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <!-- Primary Explore button (scrolls to services) -->
-          <button id="hero-explore" class="cta-button px-8 py-4 bg-yellow-400 text-gray-900 font-semibold rounded-lg" aria-label="Explore services">
-            Explore
-          </button>
-
+          <button id="hero-explore" class="cta-button px-8 py-4 bg-yellow-400 text-gray-900 font-semibold rounded-lg" aria-label="Explore services">Explore</button>
           <a href="#contact" class="cta-button cta-secondary px-8 py-4 font-semibold rounded-lg">Get in Touch</a>
         </div>
-
         <p class="mt-8 text-sm text-gray-500">Scroll or click Explore to quickly jump to our services.</p>
       </div>
     </section>
@@ -262,7 +242,7 @@
         <div class="service-option">
           <h3 class="text-2xl mb-4 text-yellow-400">SER 1</h3>
           <p class="mb-6 text-gray-700">ALL ASSIGNMENTS PRACTICAL/LAB.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
+          <a href="bca_students_list.pdf" download class="pdf-download">Download Brochure</a>
         </div>
         <div class="service-option">
           <h3 class="text-2xl mb-4 text-yellow-400">SER 2</h3>
@@ -274,7 +254,6 @@
           <p class="mb-6 text-gray-700">Empower your business with modern cloud tech.</p>
           <a href="#" class="pdf-download">Download Brochure</a>
         </div>
-
         <div class="service-option">
           <h3 class="text-2xl mb-4 text-yellow-400">SER 4</h3>
           <p class="mb-6 text-gray-700">Custom mobile apps for iOS and Android.</p>
@@ -290,7 +269,6 @@
           <p class="mb-6 text-gray-700">Protect your digital assets with top-tier security.</p>
           <a href="#" class="pdf-download">Download Brochure</a>
         </div>
-
         <div class="service-option">
           <h3 class="text-2xl mb-4 text-yellow-400">SER 7</h3>
           <p class="mb-6 text-gray-700">Unlock insights with advanced data analytics.</p>
@@ -341,44 +319,32 @@
     </section>
   </div>
 
-  <!-- DOWNLOADS PAGE -->
   <section id="downloads-page" aria-hidden="true">
     <div id="downloads-particles"></div>
     <div class="download-container text-center">
       <h1 class="text-5xl font-extrabold text-yellow-400 mb-4">Assignments Download Here</h1>
       <p class="text-gray-700 text-lg mb-6">Click below to download your latest assignments.</p>
-      <a href="BCA_lab.pdf" download class="download-btn" id="download-btn">📥 Download Now</a><br>
+      <a href="bca_students_list.pdf" download class="download-btn" id="download-btn">📥 Download Now</a><br>
       <a href="#" id="back-home" class="text-yellow-400 underline hover:text-yellow-300 mt-8 inline-block">← Back to Home</a>
     </div>
   </section>
 
   <div id="download-success">✅ Download Started...</div>
 
-  <!-- Floating Explore button -->
   <button id="explore-fab" class="explore-fab" aria-label="Explore services floating button">
     <span class="explore-pulse" aria-hidden="true"></span>
     <span class="font-semibold">Explore</span>
   </button>
 
-  <!-- SCRIPTS -->
   <script>
-    // --- Setup GSAP plugin ---
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- Particles in login screen ---
     try {
       particlesJS("particles-js", {
-        particles: {
-          number: { value: 100 },
-          color: { value: "#000000" },
-          size: { value: 3 },
-          move: { enable: true, speed: 2 },
-          line_linked: { enable: true, color: "#000000" }
-        }
+        particles: { number: { value: 100 }, color: { value: "#000000" }, size: { value: 3 }, move: { enable: true, speed: 2 }, line_linked: { enable: true, color: "#000000" } }
       });
-    } catch(e){ /* if particles fails, ignore */ }
+    } catch(e){}
 
-    // --- Typed text in hero ---
     try {
       new Typed('#typed-text', {
         strings: ['Your journey to innovation starts here.', 'Discover next-gen AI solutions.', 'Unleash the future with Zentrix.', 'Premium tech for elite performance.'],
@@ -386,10 +352,8 @@
       });
     } catch(e){}
 
-    // show login then main content
     window.onload = () => gsap.to(".login-container", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" });
 
-    // --- Login submit ---
     document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
       let email = document.getElementById("email").value.trim();
@@ -409,58 +373,38 @@
       });
     });
 
-    // --- init home animations & particles ---
     function initHomeAnimations() {
       try {
         particlesJS("home-particles", {
-          particles: {
-            number: { value: 80 },
-            color: { value: "#000000" },
-            shape: { type: "circle" },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            move: { enable: true, speed: 1.5, direction: "none", random: true },
-            line_linked: { enable: true, color: "#000000", opacity: 0.25 }
-          }
+          particles: { number: { value: 80 }, color: { value: "#000000" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 3, random: true }, move: { enable: true, speed: 1.5, direction: "none", random: true }, line_linked: { enable: true, color: "#000000", opacity: 0.25 } }
         });
       } catch(e){}
-
       gsap.from("#hero-title", { duration: 1.8, y: -120, opacity: 0, ease: "elastic.out(1, 0.5)" });
       gsap.from(".hero-subtitle", { duration: 1.5, delay: 0.3, opacity: 0, x: -60, ease: "power4.out" });
       gsap.from("#typed-text", { duration: 1.2, delay: 0.8, opacity: 0, scale: 0.9, ease: "power4.out" });
       gsap.from(".cta-button", { duration: 1.5, delay: 1.2, opacity: 0, y: 60, stagger: 0.3, ease: "back.out(1.5)" });
-
       const sections = ["#about", "#features", "#services", "#pricing", "#contact"];
       sections.forEach(section => {
-        gsap.from(section, {
-          y: 60, opacity: 0, duration: 1.2, ease: "power4.out",
-          scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" }
-        });
+        gsap.from(section, { y: 60, opacity: 0, duration: 1.2, ease: "power4.out", scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" } });
       });
-
-      gsap.to("#home-particles", {
-        yPercent: 20, ease: "none",
-        scrollTrigger: { trigger: "#home", scrub: 1 }
-      });
+      gsap.to("#home-particles", { yPercent: 20, ease: "none", scrollTrigger: { trigger: "#home", scrub: 1 } });
     }
 
-    // --- PDF download buttons open downloads page ---
     document.querySelectorAll(".pdf-download").forEach(btn => {
       btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.getElementById("main-content").style.display = "none";
-        document.getElementById("downloads-page").classList.add("active");
-        document.getElementById("downloads-page").setAttribute("aria-hidden", "false");
-        gsap.from(".download-container", { opacity: 0, y: 50, duration: 1, ease: "power4.out" });
-        try {
-          particlesJS("downloads-particles", {
-            particles: { number: { value: 150 }, color: { value: ["#000000","#4b5563"] }, shape: { type: "circle" }, size: { value: 2 }, move: { enable: true, speed: 3 }, line_linked: { enable: true, color: "#000000" } }
-          });
-        } catch(e){}
+        if (btn.getAttribute("href") === "#") {
+          e.preventDefault();
+          document.getElementById("main-content").style.display = "none";
+          document.getElementById("downloads-page").classList.add("active");
+          document.getElementById("downloads-page").setAttribute("aria-hidden", "false");
+          gsap.from(".download-container", { opacity: 0, y: 50, duration: 1, ease: "power4.out" });
+          try {
+            particlesJS("downloads-particles", { particles: { number: { value: 150 }, color: { value: ["#000000","#4b5563"] }, shape: { type: "circle" }, size: { value: 2 }, move: { enable: true, speed: 3 }, line_linked: { enable: true, color: "#000000" } } });
+          } catch(e){}
+        }
       });
     });
 
-    // --- Download button confetti ---
     const downloadBtn = document.getElementById("download-btn");
     if (downloadBtn) {
       downloadBtn.addEventListener("click", () => {
@@ -468,8 +412,6 @@
         msg.style.display = "block";
         gsap.fromTo(msg, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" });
         setTimeout(() => gsap.to(msg, { opacity: 0, duration: 1.2, ease: "power4.in", onComplete: () => msg.style.display = "none" }), 1800);
-
-        // confetti
         const duration = 2 * 1000;
         const end = Date.now() + duration;
         (function frame() {
@@ -480,7 +422,6 @@
       });
     }
 
-    // back to home from downloads
     const backHome = document.getElementById("back-home");
     if (backHome) {
       backHome.addEventListener("click", (e) => {
@@ -491,31 +432,16 @@
       });
     }
 
-    // --- Explore button behavior: scroll to #services with smooth animation ---
     function scrollToServices() {
       const target = document.getElementById("services");
       if (!target) return;
-      // Use GSAP to animate scroll if available
-      try {
-        gsap.to(window, { duration: 1.0, scrollTo: { y: target, offsetY: 80 } });
-      } catch (e) {
-        // fallback: native smooth
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // small offset adjustment
-        window.scrollBy(0, -72);
-      }
+      try { gsap.to(window, { duration: 1.0, scrollTo: { y: target, offsetY: 80 } }); }
+      catch (e) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy(0, -72); }
     }
 
-    document.getElementById("hero-explore").addEventListener("click", (e) => {
-      e.preventDefault();
-      scrollToServices();
-    });
-    document.getElementById("explore-fab").addEventListener("click", (e) => {
-      e.preventDefault();
-      scrollToServices();
-    });
+    document.getElementById("hero-explore").addEventListener("click", (e) => { e.preventDefault(); scrollToServices(); });
+    document.getElementById("explore-fab").addEventListener("click", (e) => { e.preventDefault(); scrollToServices(); });
 
-    // menu toggle for mobile
     const menuToggle = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
     if (menuToggle) {
@@ -526,37 +452,22 @@
       });
     }
 
-    // If GSAP ScrollTo plugin is not present, attach small polyfill for gsap.to(window, {scrollTo:...})
-    // (Basic implementation to avoid breaking the earlier call.)
     if (typeof gsap !== 'undefined' && typeof gsap.to === 'function' && !gsap.plugins || !gsap.plugins.scrollTo) {
-      // Simple linear scroll helper when gsap.scrollTo isn't available
       gsap.utils.toArray = gsap.utils ? gsap.utils.toArray : function(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); };
-      gsap.to(window, {duration: 0, onComplete: function(){}}); // no-op to ensure gsap exists
+      gsap.to(window, {duration: 0, onComplete: function(){}});
     }
 
-    // small accessibility: allow "Enter" on floating fab
-    document.getElementById("explore-fab").addEventListener("keyup", (e) => {
-      if (e.key === "Enter" || e.key === " ") scrollToServices();
-    });
+    document.getElementById("explore-fab").addEventListener("keyup", (e) => { if (e.key === "Enter" || e.key === " ") scrollToServices(); });
 
-    // Smooth-scrolling for anchors that match internal sections (nav links)
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         if (href && href.length > 1) {
           const target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // adjust for fixed nav
-            setTimeout(() => window.scrollBy(0, -72), 300);
-          }
+          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => window.scrollBy(0, -72), 300); }
         }
       });
     });
-
-    // Reveal animations: after login we call initHomeAnimations() which already sets up scroll triggers
-    // All set — minimal and non-destructive edits only.
   </script>
 </body>
 </html>
