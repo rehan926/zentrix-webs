@@ -192,6 +192,7 @@
         <a class="block py-2 text-gray-700" href="#services">Services</a>
         <a class="block py-2 text-gray-700" href="#pricing">Pricing</a>
         <a class="block py-2 text-gray-700" href="#contact">Contact</a>
+        <a class="block py-2 text-gray-700" href="#orders">orders</a>
       </div>
     </nav>
 
@@ -214,7 +215,7 @@
       <div class="max-w-4xl mx-auto px-4 text-gray-700 text-lg">
         <p class="mb-4">Zentrix is a leading provider of innovative technology solutions, dedicated to helping businesses thrive in the digital age.</p>
         <p class="mb-4">Our team of experts combines cutting-edge technology with creative thinking to deliver exceptional results.</p>
-        <p class="text-sm text-gray-500">THE "CEO" OF ZENTRIX MR RIHAN ATIK (BIHAR) INDIA, CONTACT NO-62068821XX EMAIL-RIHANATIK13@GMAIL.COM</p>
+        <p class="text-sm text-gray-500">THE "CEO" OF ZENTRIX MR R INDIA, CONTACT NO-6206XXXXXX EMAIL-Rxxxxxx</p>
       </div>
     </section>
 
