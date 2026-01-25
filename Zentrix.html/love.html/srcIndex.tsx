@@ -307,8 +307,8 @@ const Index = () => {
             </p>
             <p className="text-foreground/90 font-medium">
               Join us on our journey to unleash the future of innovation. THE "CEO" OF
-              ZENTRIX MR RIHAN ATIK (BIHAR) INDIA, CONTACT NO-62068821XX
-              EMAIL-RIHANATIK13@GMAIL.COM
+              ZENTRIX MR R INDIA, CONTACT NO-6206XXXXXXXX
+              EMAIL-RXXXXXXXXXX@GMAIL.COM
             </p>
           </div>
         </div>
@@ -439,5 +439,6 @@ const Index = () => {
     </div>
   );
 };
+
 
 export default Index;
