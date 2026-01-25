@@ -1,28 +1,45 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zentrix - Unleash the Future</title>
-
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- Particles, Typed, Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
-      color: #000000;
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #facc15;
+      --bg-light: #f8fafc;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
+      --card-bg: #ffffff;
+    }
+
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
       overflow-x: hidden;
       scroll-behavior: smooth;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+      height: 100vh;
     }
 
     #particles-js, #downloads-particles, #home-particles {
@@ -30,444 +47,898 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      top: 0;
-      left: 0;
       pointer-events: none;
     }
 
-    .login-container { z-index: 1; opacity: 0; transform: translateY(40px); }
+    #login-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      z-index: 1000;
+      overflow: hidden;
+    }
 
-    #main-content, #downloads-page { display: none; }
-    #main-content.active, #downloads-page.active { display: block; }
+    .login-container {
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(40px);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    }
+
+    #main-content, #downloads-page {
+      display: none;
+    }
+
+    #main-content.active {
+      display: block;
+    }
 
     .cta-button {
-      transition: all 0.4s cubic-bezier(.25,.8,.25,1);
-      box-shadow: 0 4px 15px rgba(250,204,21,0.4);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
     }
+
+    .cta-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%) rotate(45deg) translateY(100%);
+      transition: transform 0.6s;
+    }
+
+    .cta-button:hover::after {
+      transform: translate(-50%, -50%) rotate(45deg) translateY(-100%);
+    }
+
     .cta-button:hover {
-      background-color: #facc15;
-      color: #0f0f0f;
-      transform: scale(1.05) translateY(-2px);
-      box-shadow: 0 10px 25px rgba(250,204,21,0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
     }
 
-    .feature-card, .service-option { opacity: 0; transform: translateY(40px); }
-
-    .feature-card {
-      background: #ffffff;
-      border: 1px solid #facc15;
-      transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+    .feature-card, .service-option {
+      opacity: 0;
+      transform: translateY(30px);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      border-radius: 24px;
     }
-    .feature-card:hover { transform: translateY(-10px); box-shadow: 0 12px 25px rgba(250,204,21,0.5); }
 
-    .service-option {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 20px;
-      transition: all 0.4s cubic-bezier(.25,.8,.25,1);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    .feature-card:hover, .service-option:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(37, 99, 235, 0.1);
+      border-color: var(--primary);
+      background: white;
     }
-    .service-option:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 10px 25px rgba(250,204,21,0.4); }
 
     .pdf-download {
-      background-color: #facc15;
-      color: #0f0f0f;
-      font-weight: bold;
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      color: white;
+      font-weight: 700;
       padding: 12px 24px;
-      border-radius: 8px;
+      border-radius: 12px;
       display: inline-block;
-      transition: all 0.4s cubic-bezier(.25,.8,.25,1);
-      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+      cursor: pointer;
     }
-    .pdf-download:hover { background-color: #eab308; transform: scale(1.05) translateY(-2px); }
 
-    #downloads-page { position: relative; background: #ffffff; text-align: center; min-height: 100vh; padding-top: 10%; overflow: hidden; }
-    .download-container { position: relative; z-index: 1; animation: floatText 5s ease-in-out infinite; }
-    @keyframes floatText { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+    .pdf-download:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.05);
+    }
+
+    #downloads-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at center, #ffffff, #f1f5f9);
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      z-index: 900;
+      overflow: hidden;
+    }
+
+    .download-container {
+      position: relative;
+      z-index: 1;
+    }
 
     .download-btn {
-      margin-top: 2rem;
-      background-color: #facc15;
-      color: #111;
-      font-weight: bold;
-      padding: 14px 36px;
+      background-color: var(--primary);
+      color: white;
+      font-weight: 700;
+      padding: 16px 40px;
       border-radius: 12px;
-      transition: all 0.4s cubic-bezier(.25,.8,.25,1);
-      box-shadow: 0 4px 20px rgba(250,204,21,0.4);
-      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+      display: inline-block;
+      cursor: pointer;
     }
-    .download-btn:hover { transform: scale(1.07) translateY(-3px); box-shadow: 0 8px 25px rgba(250,204,21,0.6); background-color:#eab308; }
+
+    .download-btn:hover {
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
+      background-color: var(--primary-hover);
+    }
 
     #download-success {
       display: none;
       position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      background: rgba(255,255,255,0.95);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
       padding: 30px 50px;
-      border-radius: 15px;
-      color: #facc15;
-      font-size: 1.25rem;
-      font-weight: 700;
-      box-shadow: 0 0 30px rgba(250,204,21,0.6);
-      z-index: 1000;
+      border-radius: 20px;
+      color: var(--primary);
+      font-size: 1.5rem;
+      font-weight: 800;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+      z-index: 2000;
+      border: 2px solid var(--primary);
     }
 
-    #home { position: relative; overflow: hidden; min-height: 75vh; }
-    .hero-content { z-index: 1; }
-    .hero-subtitle { font-size: 1.25rem; color: #4b5563; margin-bottom: 1.25rem; }
-    .cta-secondary { margin-left: 1rem; background: transparent; border: 2px solid #facc15; color: #facc15; }
-    .cta-secondary:hover { background: #facc15; color: #0f0f0f; }
-
-    .explore-fab {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 60;
-      background: linear-gradient(135deg,#facc15,#f59e0b);
-      color: #0f0f0f;
-      padding: 14px 18px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    .nav-link {
+      position: relative;
+      color: var(--text-muted);
+      transition: color 0.3s;
       cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .explore-fab:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
-    .explore-pulse {
-      width: 10px; height: 10px; border-radius: 999px; background: #fff; box-shadow: 0 0 0 rgba(255,255,255,0.5);
-      animation: pulse 1.6s infinite;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
-      70% { box-shadow: 0 0 0 12px rgba(250,204,21,0); }
-      100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
     }
 
-    @media (max-width: 640px) {
-      .hero-subtitle{ font-size: 1rem; }
-      .text-7xl { font-size: 2.25rem; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s;
     }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 3rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    input, textarea {
+      background: #f1f5f9 !important;
+      border: 1px solid #e2e8f0 !important;
+      color: var(--text-dark) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+      background: white !important;
+    }
+
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .animate-blob {
+      animation: blob 7s infinite;
+    }
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+    @keyframes blob {
+      0% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+
+    .hover-lift {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .hover-lift:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1001;
+    }
+
+    #custom-cursor {
+      mix-blend-mode: difference;
+      background: white;
+      border: none;
+      width: 12px;
+      height: 12px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .cursor-hover {
+      transform: scale(4);
+      background: rgba(37, 99, 235, 0.2) !important;
+      mix-blend-mode: normal !important;
+    }
+
+    /* PREMIUM SLIDER STYLES */
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: 20px 0;
+      margin-top: 20px;
+    }
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 20px;
+    }
+    .slide-item {
+      min-width: calc(100% - 40px);
+      flex-shrink: 0;
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .slide-item {
+        min-width: calc(50% - 10px);
+      }
+    }
+    @media (min-width: 1024px) {
+      .slide-item {
+        min-width: calc(33.333% - 13.333px);
+      }
+    }
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
+    }
+    .slider-arrow:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .slider-arrow.prev { left: 10px; }
+    .slider-arrow.next { right: 10px; }
+    .slider-arrow svg { width: 20px; height: 20px; }
   </style>
 </head>
-<body>
-  <section id="login-page" class="min-h-screen flex items-center justify-center bg-white relative overflow-hidden">
-    <div id="particles-js"></div>
+<body class="no-scroll">
+  <div id="custom-cursor"></div>
+  <div id="scroll-progress"></div>
 
-    <div class="login-container max-w-md mx-auto px-4 text-center">
-      <h1 class="text-5xl font-extrabold text-yellow-400 mb-6">Zentrix Login</h1>
-      <div class="bg-white p-8 rounded-lg shadow-2xl">
-        <form id="login-form" class="space-y-6" aria-label="login form">
-          <input type="email" id="email" placeholder="Enter your email" class="w-full p-4 bg-gray-100 border border-gray-300 rounded-lg text-black focus:outline-none focus:border-yellow-400" required aria-label="email input">
-          <input type="password" id="password" placeholder="Enter any password" class="w-full p-4 bg-gray-100 border border-gray-300 rounded-lg text-black focus:outline-none focus:border-yellow-400" aria-label="password input">
-          <button type="submit" class="w-full px-8 py-4 bg-yellow-400 text-gray-900 font-semibold rounded-lg cta-button">Login</button>
+  <!-- LOGIN PAGE -->
+  <section id="login-page">
+    <div id="particles-js"></div>
+    <div class="login-container px-6">
+      <div class="glass-card p-10 rounded-[40px] text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-purple-600"></div>
+        <div class="mb-8 inline-block p-4 bg-blue-50 rounded-3xl">
+          <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <h1 class="text-4xl font-black text-slate-900 mb-4">Welcome to Zentrix</h1>
+        <p id="typed-text" class="text-slate-500 font-medium h-12 mb-8"></p>
+        
+        <form id="login-form" class="space-y-5">
+          <div class="relative">
+            <input type="email" id="email" required placeholder="Enter your email" class="w-full px-6 py-4 rounded-2xl text-lg font-medium focus:outline-none">
+          </div>
+          <button type="submit" class="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl text-lg shadow-xl shadow-blue-100 hover:bg-blue-700 transition-all transform hover:-translate-y-1">
+            Get Started Free
+          </button>
         </form>
+        <p class="mt-8 text-sm text-slate-400">No credit card required • Instant access</p>
       </div>
-      <p class="mt-4 text-sm text-gray-600">Use any email & password to preview the site.</p>
     </div>
   </section>
 
-  <div id="main-content" aria-hidden="true">
-    <nav class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md z-50">
-      <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="text-3xl font-extrabold text-yellow-400">Zentrix</div>
-        <div class="space-x-6 hidden sm:flex">
-          <a href="#home" class="text-gray-700 hover:text-yellow-400">Home</a>
-          <a href="#about" class="text-gray-700 hover:text-yellow-400">About</a>
-          <a href="#features" class="text-gray-700 hover:text-yellow-400">Features</a>
-          <a href="#services" class="text-gray-700 hover:text-yellow-400">Services</a>
-          <a href="#pricing" class="text-gray-700 hover:text-yellow-400">Pricing</a>
-          <a href="#contact" class="text-gray-700 hover:text-yellow-400">Contact</a>
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div class="text-2xl font-black text-blue-600 tracking-tighter">ZENTRIX</div>
+        <div class="hidden md:flex items-center space-x-10">
+          <a href="#home" class="nav-link font-bold text-sm uppercase tracking-widest">Home</a>
+          <a href="#features" class="nav-link font-bold text-sm uppercase tracking-widest">Features</a>
+          <a href="#services" class="nav-link font-bold text-sm uppercase tracking-widest">Services</a>
+          <a href="#pricing" class="nav-link font-bold text-sm uppercase tracking-widest">Pricing</a>
+          <a href="#contact" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl text-sm hover:bg-blue-700 transition-all">Contact Us</a>
         </div>
-        <div class="sm:hidden">
-          <button id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" class="text-gray-700 focus:outline-none">Menu</button>
-        </div>
-      </div>
-      <div id="mobile-menu" class="hidden px-4 pb-4 sm:hidden">
-        <a class="block py-2 text-gray-700" href="#home">Home</a>
-        <a class="block py-2 text-gray-700" href="#about">About</a>
-        <a class="block py-2 text-gray-700" href="#features">Features</a>
-        <a class="block py-2 text-gray-700" href="#services">Services</a>
-        <a class="block py-2 text-gray-700" href="#pricing">Pricing</a>
-        <a class="block py-2 text-gray-700" href="#contact">Contact</a>
-        <a class="block py-2 text-gray-700" href="#orders">orders</a>
       </div>
     </nav>
 
-    <section id="home" class="min-h-screen flex items-center justify-center bg-white text-center relative">
+    <section id="home" class="min-h-screen pt-32 pb-20 relative overflow-hidden flex items-center">
       <div id="home-particles"></div>
-      <div class="hero-content max-w-4xl mx-auto px-4 py-24">
-        <h1 class="text-7xl font-extrabold text-yellow-400 mb-6" id="hero-title">Welcome to Zentrix</h1>
-        <p class="hero-subtitle">Empowering innovation with cutting-edge technology solutions.</p>
-        <p class="text-xl text-gray-700 mb-8"><span id="typed-text"></span></p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button id="hero-explore" class="cta-button px-8 py-4 bg-yellow-400 text-gray-900 font-semibold rounded-lg" aria-label="Explore services">Explore</button>
-          <a href="#contact" class="cta-button cta-secondary px-8 py-4 font-semibold rounded-lg">Get in Touch</a>
-        </div>
-        <p class="mt-8 text-sm text-gray-500">Scroll or click Explore to quickly jump to our services.</p>
-      </div>
-    </section>
-
-    <section id="about" class="py-20 bg-white text-center">
-      <h2 class="text-4xl font-bold text-yellow-400 mb-6">About Us</h2>
-      <div class="max-w-4xl mx-auto px-4 text-gray-700 text-lg">
-        <p class="mb-4">Zentrix is a leading provider of innovative technology solutions, dedicated to helping businesses thrive in the digital age.</p>
-        <p class="mb-4">Our team of experts combines cutting-edge technology with creative thinking to deliver exceptional results.</p>
-        <p class="text-sm text-gray-500">THE "CEO" OF ZENTRIX MR R INDIA, CONTACT NO-6206XXXXXX EMAIL-Rxxxxxx</p>
-      </div>
-    </section>
-
-    <section id="features" class="py-20 bg-white text-center">
-      <h2 class="text-4xl font-bold text-yellow-400 mb-6">Our Features</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
-        <div class="feature-card p-8 rounded-lg">
-          <h3 class="text-2xl mb-4">Innovative Tech</h3>
-          <p class="text-gray-700">Cutting-edge solutions for tomorrow.</p>
-        </div>
-        <div class="feature-card p-8 rounded-lg">
-          <h3 class="text-2xl mb-4">User Focused</h3>
-          <p class="text-gray-700">Designs that truly understand users.</p>
-        </div>
-        <div class="feature-card p-8 rounded-lg">
-          <h3 class="text-2xl mb-4">Secure & Reliable</h3>
-          <p class="text-gray-700">Top-tier security and scalability.</p>
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="text-left">
+            <div class="inline-block px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-bold mb-6">✨ NEXT GENERATION PLATFORM</div>
+            <h1 id="hero-title" class="text-7xl md:text-8xl font-black text-slate-900 leading-[0.9] mb-8">
+              Build the <span class="gradient-text">Future</span> Today.
+            </h1>
+            <p class="hero-subtitle text-xl text-slate-500 mb-10 max-w-xl leading-relaxed">
+              Experience the most advanced ecosystem for developers and creators. Scalable, secure, and lightning fast.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a href="#services" class="px-10 py-5 bg-blue-600 text-white font-bold rounded-2xl cta-button shadow-2xl shadow-blue-200 text-lg">Explore Services</a>
+              <a href="#features" class="px-10 py-5 bg-white text-slate-900 font-bold rounded-2xl border-2 border-slate-100 hover:border-blue-600 transition-all text-lg">Learn More</a>
+            </div>
+          </div>
+          <div class="relative hidden lg:block">
+            <div class="absolute -top-20 -right-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-blob"></div>
+            <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+            <div class="relative glass-card p-8 rounded-[40px] border-slate-200/50 floating">
+              <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80" alt="Dashboard" class="rounded-[32px] shadow-2xl">
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="services" class="py-20 text-center bg-white">
-      <h2 class="text-4xl font-bold text-yellow-400 mb-6">Our Services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 1</h3>
-          <p class="mb-6 text-gray-700">ALL ASSIGNMENTS PRACTICAL/LAB.</p>
-          <a href="bca_students_list.pdf" download class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 2</h3>
-          <p class="mb-6 text-gray-700">High-quality web solutions built to scale.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 3</h3>
-          <p class="mb-6 text-gray-700">Empower your business with modern cloud tech.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 4</h3>
-          <p class="mb-6 text-gray-700">Custom mobile apps for iOS and Android.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 5</h3>
-          <p class="mb-6 text-gray-700">Leverage AI to enhance your business processes.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 6</h3>
-          <p class="mb-6 text-gray-700">Protect your digital assets with top-tier security.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 7</h3>
-          <p class="mb-6 text-gray-700">Unlock insights with advanced data analytics.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 8</h3>
-          <p class="mb-6 text-gray-700">Craft intuitive and engaging user interfaces.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">SER 9</h3>
-          <p class="mb-6 text-gray-700">Strategic IT solutions for your business growth.</p>
-          <a href="#" class="pdf-download">Download Brochure</a>
+    <section id="features" class="py-32 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-black text-slate-900 mb-4 section-title">Core Features</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto mb-20">Everything you need to scale your digital presence to the next level.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="feature-card p-10 rounded-3xl text-left">
+            <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl mb-8">🚀</div>
+            <h3 class="text-2xl font-bold mb-4">Ultra Fast</h3>
+            <p class="text-slate-600 leading-relaxed">Implementing the latest advancements in AI and cloud computing to give you a competitive edge.</p>
+          </div>
+          <div class="feature-card p-10 rounded-3xl text-left">
+            <div class="w-16 h-16 bg-yellow-50 rounded-2xl flex items-center justify-center text-3xl mb-8">🎯</div>
+            <h3 class="text-2xl font-bold mb-4">User Focused</h3>
+            <p class="text-slate-600 leading-relaxed">Designs that prioritize user experience, ensuring high engagement and conversion rates.</p>
+          </div>
+          <div class="feature-card p-10 rounded-3xl text-left">
+            <div class="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center text-3xl mb-8">🛡️</div>
+            <h3 class="text-2xl font-bold mb-4">Secure & Reliable</h3>
+            <p class="text-slate-600 leading-relaxed">Enterprise-grade security protocols to protect your data and ensure 99.9% uptime.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="pricing" class="py-20 bg-white text-center">
-      <h2 class="text-4xl font-bold text-yellow-400 mb-6">Pricing Plans</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">Basic</h3>
-          <p class="mb-6 text-gray-700">$99/month - Essential features for startups.</p>
-          <a href="#contact" class="pdf-download">Get Started</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">Pro</h3>
-          <p class="mb-6 text-gray-700">$299/month - Advanced tools for growing businesses.</p>
-          <a href="#contact" class="pdf-download">Get Started</a>
-        </div>
-        <div class="service-option">
-          <h3 class="text-2xl mb-4 text-yellow-400">Enterprise</h3>
-          <p class="mb-6 text-gray-700">Custom - Tailored solutions for large enterprises.</p>
-          <a href="#contact" class="pdf-download">Contact Us</a>
+    <section id="services" class="py-32 bg-white">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-black text-slate-900 mb-4 section-title">Our Services</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto mb-16">Comprehensive solutions tailored to your specific business needs and goals.</p>
+        <div class="grid grid-cols-1 gap-8">
+          <!-- SERVICE 01 WITH PREMIUM SLIDER -->
+          <div class="service-option p-8 rounded-3xl text-left md:col-span-1">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+              <div>
+                <div class="text-blue-600 font-bold mb-2">Service 01</div>
+                <h3 class="text-3xl font-bold mb-2">Academic Support</h3>
+                <p class="text-slate-600">All assignments, practicals, and lab work assistance for students.</p>
+              </div>
+              <a href="#" class="pdf-download mt-4 md:mt-0 general-download-trigger" data-pdf="pdf/brochure.pdf" data-title="Service Brochure">Download Brochure</a>
+            </div>
+            
+            <!-- PREMIUM SLIDER -->
+            <div class="slider-container">
+              <div class="slider-arrow prev" id="slider-prev">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </div>
+              <div class="slider-track" id="slider-track">
+                <div class="slide-item">
+                  <div class="text-4xl mb-4">📘</div>
+                  <h4 class="text-xl font-bold mb-2">MCS 201</h4>
+                  <p class="text-slate-500 mb-6 text-sm">Advanced Data Structures and Algorithms</p>
+                  <a href="#" class="w-full py-3 bg-slate-100 text-slate-900 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-center general-download-trigger" data-pdf="pdf/MCS-201-full-textbook.pdf" data-title="MCS 201">View PDF</a>
+                </div>
+                <div class="slide-item">
+                  <div class="text-4xl mb-4">📗</div>
+                  <h4 class="text-xl font-bold mb-2">MCS 202</h4>
+                  <p class="text-slate-500 mb-6 text-sm">Computer Organization and Architecture</p>
+                  <a href="#" class="w-full py-3 bg-slate-100 text-slate-900 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-center general-download-trigger" data-pdf="pdf/MCS-202-full-textbook.pdf" data-title="MCS 202">View PDF</a>
+                </div>
+                <div class="slide-item">
+                  <div class="text-4xl mb-4">📙</div>
+                  <h4 class="text-xl font-bold mb-2">MCS 203</h4>
+                  <p class="text-slate-500 mb-6 text-sm">Operating Systems and Networking</p>
+                  <a href="#" class="w-full py-3 bg-slate-100 text-slate-900 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-center general-download-trigger" data-pdf="pdf/MCS-203-full-textbook.pdf" data-title="MCS 203">View PDF</a>
+                </div>
+                <div class="slide-item">
+                  <div class="text-4xl mb-4">📕</div>
+                  <h4 class="text-xl font-bold mb-2">MCS 204</h4>
+                  <p class="text-slate-500 mb-6 text-sm">Database Management Systems</p>
+                  <a href="#" class="w-full py-3 bg-slate-100 text-slate-900 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-center general-download-trigger" data-pdf="pdf/MCS-204-full-textbook.pdf" data-title="MCS 204">View PDF</a>
+                </div>
+                <div class="slide-item">
+                  <div class="text-4xl mb-4">📓</div>
+                  <h4 class="text-xl font-bold mb-2">FEG 02</h4>
+                  <p class="text-slate-500 mb-6 text-sm">Foundation Course in English - 2</p>
+                  <a href="#" class="w-full py-3 bg-slate-100 text-slate-900 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-center general-download-trigger" data-pdf="pdf/FEG-02.pdf" data-title="FEG 02">View PDF</a>
+                </div>
+              </div>
+              <div class="slider-arrow next" id="slider-next">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- OTHER SERVICES -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="service-option p-8 rounded-3xl text-left">
+              <div class="text-blue-600 font-bold mb-2">Service 02</div>
+              <h3 class="text-2xl font-bold mb-4">Web Development</h3>
+              <p class="mb-8 text-slate-600">High-quality, responsive web solutions built with modern frameworks.</p>
+              <a href="#" class="pdf-download general-download-trigger" data-pdf="pdf/web-dev.pdf" data-title="Web Development">Download Brochure</a>
+            </div>
+            <div class="service-option p-8 rounded-3xl text-left">
+              <div class="text-blue-600 font-bold mb-2">Service 03</div>
+              <h3 class="text-2xl font-bold mb-4">Cloud Solutions</h3>
+              <p class="mb-8 text-slate-600">Empower your business with scalable and secure cloud infrastructure.</p>
+              <a href="#" class="pdf-download general-download-trigger" data-pdf="pdf/cloud.pdf" data-title="Cloud Solutions">Download Brochure</a>
+            </div>
+            <div class="service-option p-8 rounded-3xl text-left">
+              <div class="text-blue-600 font-bold mb-2">Service 04</div>
+              <h3 class="text-2xl font-bold mb-4">Mobile Apps</h3>
+              <p class="mb-8 text-slate-600">Custom native and cross-platform mobile applications for iOS and Android.</p>
+              <a href="#" class="pdf-download general-download-trigger" data-pdf="pdf/mobile.pdf" data-title="Mobile Apps">Download Brochure</a>
+            </div>
+            <div class="service-option p-8 rounded-3xl text-left">
+              <div class="text-blue-600 font-bold mb-2">Service 05</div>
+              <h3 class="text-2xl font-bold mb-4">AI Integration</h3>
+              <p class="mb-8 text-slate-600">Leverage artificial intelligence to automate and enhance business processes.</p>
+              <a href="#" class="pdf-download general-download-trigger" data-pdf="pdf/ai.pdf" data-title="AI Integration">Download Brochure</a>
+            </div>
+            <div class="service-option p-8 rounded-3xl text-left">
+              <div class="text-blue-600 font-bold mb-2">Service 06</div>
+              <h3 class="text-2xl font-bold mb-4">UI/UX Design</h3>
+              <p class="mb-8 text-slate-600">Crafting intuitive and engaging user interfaces for better user retention.</p>
+              <a href="#" class="pdf-download general-download-trigger" data-pdf="pdf/uiux.pdf" data-title="UI/UX Design">Download Brochure</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="py-20 bg-white text-center">
-      <h2 class="text-4xl font-bold text-yellow-400 mb-6">Contact Us</h2>
-      <form class="max-w-md mx-auto space-y-6" aria-label="contact form">
-        <input type="text" placeholder="Your Name" class="w-full p-4 bg-gray-100 border border-gray-300 rounded-lg text-black" aria-label="name">
-        <input type="email" placeholder="Your Email" class="w-full p-4 bg-gray-100 border border-gray-300 rounded-lg text-black" aria-label="email">
-        <textarea placeholder="Your Message" class="w-full p-4 bg-gray-100 border border-gray-300 rounded-lg text-black h-32" aria-label="message"></textarea>
-        <button type="submit" class="w-full px-8 py-4 bg-yellow-400 text-gray-900 font-semibold rounded-lg cta-button">Send</button>
-      </form>
+    <section id="pricing" class="py-32 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-black text-slate-900 mb-4 section-title">Pricing Plans</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto mb-16">Transparent pricing with no hidden fees. Choose the plan that fits your scale.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div class="service-option p-10 rounded-3xl bg-white">
+            <h3 class="text-xl font-bold text-slate-500 mb-4">Basic</h3>
+            <div class="text-5xl font-black text-slate-900 mb-6">$99<span class="text-lg text-slate-400">/mo</span></div>
+            <ul class="text-left space-y-4 mb-10 text-slate-600">
+              <li>✓ Essential features</li>
+              <li>✓ Community support</li>
+              <li>✓ 5 Projects</li>
+            </ul>
+            <a href="#contact" class="w-full py-4 px-6 bg-slate-100 text-slate-900 font-bold rounded-xl inline-block hover:bg-blue-600 hover:text-white transition-all text-center">Get Started</a>
+          </div>
+          <div class="service-option p-10 rounded-3xl bg-white border-2 border-blue-600 relative">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold">MOST POPULAR</div>
+            <h3 class="text-xl font-bold text-slate-500 mb-4">Pro</h3>
+            <div class="text-5xl font-black text-slate-900 mb-6">$299<span class="text-lg text-slate-400">/mo</span></div>
+            <ul class="text-left space-y-4 mb-10 text-slate-600">
+              <li>✓ Advanced tools</li>
+              <li>✓ Priority support</li>
+              <li>✓ Unlimited Projects</li>
+            </ul>
+            <a href="#contact" class="w-full py-4 px-6 bg-blue-600 text-white font-bold rounded-xl inline-block shadow-lg shadow-blue-100 text-center">Get Started</a>
+          </div>
+          <div class="service-option p-10 rounded-3xl bg-white">
+            <h3 class="text-xl font-bold text-slate-500 mb-4">Enterprise</h3>
+            <div class="text-5xl font-black text-slate-900 mb-6">Custom</div>
+            <ul class="text-left space-y-4 mb-10 text-slate-600">
+              <li>✓ Tailored solutions</li>
+              <li>✓ Dedicated manager</li>
+              <li>✓ Custom integrations</li>
+            </ul>
+            <a href="#contact" class="w-full py-4 px-6 bg-slate-100 text-slate-900 font-bold rounded-xl inline-block hover:bg-blue-600 hover:text-white transition-all text-center">Contact Us</a>
+          </div>
+        </div>
+      </div>
     </section>
+
+    <section id="contact" class="py-32 bg-white">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-black text-slate-900 mb-4 section-title">Get In Touch</h2>
+        <p class="text-slate-500 mb-16">Have a project in mind? Let's build something amazing together.</p>
+        <form class="space-y-6 text-left">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-bold text-slate-700 mb-2">Your Name</label>
+              <input type="text" placeholder="John Doe" class="w-full p-4 rounded-xl focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-slate-700 mb-2">Your Email</label>
+              <input type="email" placeholder="john@example.com" class="w-full p-4 rounded-xl focus:outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Message</label>
+            <textarea placeholder="Tell us about your project..." class="w-full p-4 rounded-xl focus:outline-none h-40"></textarea>
+          </div>
+          <button type="submit" class="w-full px-8 py-5 bg-blue-600 text-white font-bold rounded-xl cta-button shadow-xl shadow-blue-100">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="py-12 border-t border-slate-100 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-2xl font-black text-blue-600">Zentrix</div>
+            <p class="text-slate-500 text-sm">© 2026 Zentrix. All rights reserved. Built by Rihan Atik.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-slate-400 hover:text-blue-600 transition-colors">Twitter</a>
+                <a href="#" class="text-slate-400 hover:text-blue-600 transition-colors">LinkedIn</a>
+                <a href="#" class="text-slate-400 hover:text-blue-600 transition-colors">GitHub</a>
+            </div>
+        </div>
+    </footer>
   </div>
 
-  <section id="downloads-page" aria-hidden="true">
+  <!-- GENERAL DOWNLOADS PAGE -->
+  <section id="downloads-page">
     <div id="downloads-particles"></div>
-    <div class="download-container text-center">
-      <h1 class="text-5xl font-extrabold text-yellow-400 mb-4">Assignments Download Here</h1>
-      <p class="text-gray-700 text-lg mb-6">Click below to download your latest assignments.</p>
-      <a href="bca_students_list.pdf" download class="download-btn" id="download-btn">📥 Download Now</a><br>
-      <a href="#" id="back-home" class="text-yellow-400 underline hover:text-yellow-300 mt-8 inline-block">← Back to Home</a>
+    <div class="download-container px-6">
+      <div class="floating text-8xl mb-8">📄</div>
+      <h1 id="download-title" class="text-5xl font-black text-slate-900 mb-4">Ready for Download</h1>
+      <p class="text-slate-500 text-xl mb-12 max-w-lg mx-auto">Your requested file is prepared. Click the button below to start.</p>
+      <div class="flex flex-col items-center gap-6">
+        <a 
+          href="#" 
+          target="_blank"
+          download
+          class="download-btn text-lg" 
+          id="main-download-btn"
+        >
+          📥 Download Now
+        </a>
+
+        <a href="#" id="back-home" class="text-blue-600 font-bold hover:underline flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          Back to Home
+        </a>
+      </div>
     </div>
   </section>
 
-  <div id="download-success">✅ Download Started...</div>
+  <div id="download-success">
+    <div class="text-center">
+        <div class="text-5xl mb-4">🎉</div>
+        <p>Download Started!</p>
+    </div>
+  </div>
 
-  <button id="explore-fab" class="explore-fab" aria-label="Explore services floating button">
-    <span class="explore-pulse" aria-hidden="true"></span>
-    <span class="font-semibold">Explore</span>
-  </button>
-
+  <!-- SCRIPT -->
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    try {
-      particlesJS("particles-js", {
-        particles: { number: { value: 100 }, color: { value: "#000000" }, size: { value: 3 }, move: { enable: true, speed: 2 }, line_linked: { enable: true, color: "#000000" } }
-      });
-    } catch(e){}
+    // Particles for Login
+    particlesJS("particles-js", {
+      particles: { 
+        number: { value: 60 }, 
+        color: { value: "#2563eb" }, 
+        size: { value: 2 }, 
+        move: { enable: true, speed: 1 }, 
+        line_linked: { enable: true, color: "#2563eb", opacity: 0.1 } 
+      }
+    });
 
-    try {
-      new Typed('#typed-text', {
-        strings: ['Your journey to innovation starts here.', 'Discover next-gen AI solutions.', 'Unleash the future with Zentrix.', 'Premium tech for elite performance.'],
-        typeSpeed: 50, backSpeed: 30, loop: true
-      });
-    } catch(e){}
+    // Typed.js
+    new Typed('#typed-text', {
+      strings: [
+        'Your journey to innovation starts here.', 
+        'Discover next-gen AI solutions.', 
+        'Unleash the future with Zentrix.', 
+        'Premium tech for elite performance.'
+      ],
+      typeSpeed: 40, 
+      backSpeed: 20, 
+      loop: true,
+      backDelay: 2000
+    });
 
-    window.onload = () => gsap.to(".login-container", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" });
+    // Initial Login Animation
+    window.onload = () => {
+      gsap.to(".login-container", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" });
+    };
 
+    // Login Form Logic
     document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
       let email = document.getElementById("email").value.trim();
       let regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
       if (!regex.test(email)) return alert("Please enter a valid email address!");
-      gsap.to("#login-page", {
-        opacity: 0, scale: 0.95, duration: 1.2, ease: "power4.inOut",
+      
+      gsap.to("#login-page", { 
+        opacity: 0, 
+        y: -100,
+        duration: 0.8, 
+        ease: "power4.inOut", 
         onComplete: () => {
           document.getElementById("login-page").style.display = "none";
-          const main = document.getElementById("main-content");
-          main.classList.add("active");
-          main.setAttribute("aria-hidden", "false");
-          gsap.fromTo("#main-content", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 1.5, ease: "power4.out" });
+          document.body.classList.remove("no-scroll");
+          document.getElementById("main-content").classList.add("active");
+          gsap.fromTo("#main-content", { opacity: 0 }, { opacity: 1, duration: 1 });
           initHomeAnimations();
-          gsap.to(".feature-card, .service-option", { opacity: 1, y: 0, stagger: 0.12, duration: 1.1, ease: "power4.out" });
+          initSlider();
         }
       });
     });
 
     function initHomeAnimations() {
-      try {
-        particlesJS("home-particles", {
-          particles: { number: { value: 80 }, color: { value: "#000000" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 3, random: true }, move: { enable: true, speed: 1.5, direction: "none", random: true }, line_linked: { enable: true, color: "#000000", opacity: 0.25 } }
-        });
-      } catch(e){}
-      gsap.from("#hero-title", { duration: 1.8, y: -120, opacity: 0, ease: "elastic.out(1, 0.5)" });
-      gsap.from(".hero-subtitle", { duration: 1.5, delay: 0.3, opacity: 0, x: -60, ease: "power4.out" });
-      gsap.from("#typed-text", { duration: 1.2, delay: 0.8, opacity: 0, scale: 0.9, ease: "power4.out" });
-      gsap.from(".cta-button", { duration: 1.5, delay: 1.2, opacity: 0, y: 60, stagger: 0.3, ease: "back.out(1.5)" });
-      const sections = ["#about", "#features", "#services", "#pricing", "#contact"];
-      sections.forEach(section => {
-        gsap.from(section, { y: 60, opacity: 0, duration: 1.2, ease: "power4.out", scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" } });
+      // Custom Cursor
+      const cursor = document.getElementById('custom-cursor');
+      window.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
       });
-      gsap.to("#home-particles", { yPercent: 20, ease: "none", scrollTrigger: { trigger: "#home", scrub: 1 } });
+
+      document.querySelectorAll('a, button, input, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+      });
+
+      // Home Particles
+      particlesJS("home-particles", {
+        particles: {
+          number: { value: 40 },
+          color: { value: "#2563eb" },
+          shape: { type: "circle" },
+          opacity: { value: 0.2 },
+          size: { value: 3 },
+          move: { enable: true, speed: 0.8 },
+          line_linked: { enable: false }
+        }
+      });
+
+      // Hero Animations
+      const tl = gsap.timeline();
+      tl.from("#hero-title", { duration: 1.5, y: 100, opacity: 0, skewY: 7, ease: "power4.out" })
+        .from(".hero-subtitle", { duration: 1, opacity: 0, y: 20, ease: "power4.out" }, "-=1")
+        .from(".cta-button", { duration: 1, opacity: 0, y: 20, stagger: 0.2, ease: "back.out(1.7)" }, "-=0.8");
+
+      // Smooth parallax for hero
+      window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        gsap.to("#hero-title", { x: x, y: y, duration: 1, ease: "power2.out" });
+      });
+
+      // Scroll Progress Bar
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+      });
+
+      // Scroll Animations
+      gsap.utils.toArray('.feature-card, .service-option').forEach((el, i) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+          }
+        });
+      });
+
+      // Section Fade In
+      gsap.utils.toArray('section').forEach(section => {
+        if(section.id === 'home' || section.id === 'login-page') return;
+        gsap.from(section, {
+          opacity: 0,
+          y: 30,
+          duration: 1.2,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        });
+      });
     }
 
-    document.querySelectorAll(".pdf-download").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        if (btn.getAttribute("href") === "#") {
-          e.preventDefault();
-          document.getElementById("main-content").style.display = "none";
-          document.getElementById("downloads-page").classList.add("active");
-          document.getElementById("downloads-page").setAttribute("aria-hidden", "false");
-          gsap.from(".download-container", { opacity: 0, y: 50, duration: 1, ease: "power4.out" });
-          try {
-            particlesJS("downloads-particles", { particles: { number: { value: 150 }, color: { value: ["#000000","#4b5563"] }, shape: { type: "circle" }, size: { value: 2 }, move: { enable: true, speed: 3 }, line_linked: { enable: true, color: "#000000" } } });
-          } catch(e){}
+    // SLIDER LOGIC
+    function initSlider() {
+      const track = document.getElementById('slider-track');
+      const prevBtn = document.getElementById('slider-prev');
+      const nextBtn = document.getElementById('slider-next');
+      const slides = document.querySelectorAll('.slide-item');
+      let currentIndex = 0;
+
+      function updateSlider() {
+        const slideWidth = slides[0].offsetWidth + 20;
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        
+        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+        
+        const visibleSlides = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+        const maxIndex = Math.max(0, slides.length - visibleSlides);
+        
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+        nextBtn.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
+      }
+
+      nextBtn.addEventListener('click', () => {
+        const visibleSlides = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+        if (currentIndex < slides.length - visibleSlides) {
+          currentIndex++;
+          updateSlider();
         }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateSlider();
+        }
+      });
+
+      window.addEventListener('resize', updateSlider);
+      updateSlider();
+    }
+
+    // Navigation to General Downloads
+    document.querySelectorAll(".general-download-trigger").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const pdfPath = btn.getAttribute('data-pdf');
+        const pdfTitle = btn.getAttribute('data-title');
+        
+        const downloadBtn = document.getElementById("main-download-btn");
+        downloadBtn.href = pdfPath;
+        downloadBtn.innerHTML = `📥 Download ${pdfTitle}`;
+        document.getElementById("download-title").innerText = pdfTitle;
+
+        gsap.to("#main-content", { 
+          opacity: 0, 
+          duration: 0.5, 
+          onComplete: () => {
+            document.getElementById("main-content").style.display = "none";
+            document.body.classList.add("no-scroll");
+            document.getElementById("downloads-page").style.display = "flex";
+            gsap.fromTo("#downloads-page", { opacity: 0 }, { opacity: 1, duration: 0.8 });
+            
+            particlesJS("downloads-particles", {
+              particles: {
+                number: { value: 100 },
+                color: { value: "#2563eb" },
+                size: { value: 2 },
+                move: { enable: true, speed: 2 },
+                line_linked: { enable: true, color: "#2563eb", opacity: 0.1 }
+              }
+            });
+          }
+        });
       });
     });
 
-    const downloadBtn = document.getElementById("download-btn");
-    if (downloadBtn) {
-      downloadBtn.addEventListener("click", () => {
-        const msg = document.getElementById("download-success");
-        msg.style.display = "block";
-        gsap.fromTo(msg, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" });
-        setTimeout(() => gsap.to(msg, { opacity: 0, duration: 1.2, ease: "power4.in", onComplete: () => msg.style.display = "none" }), 1800);
-        const duration = 2 * 1000;
-        const end = Date.now() + duration;
-        (function frame() {
-          confetti({ particleCount: 8, angle: 60, spread: 55, origin: { x: 0 } });
-          confetti({ particleCount: 8, angle: 120, spread: 55, origin: { x: 1 } });
-          if (Date.now() < end) requestAnimationFrame(frame);
-        })();
+    // Download Success Celebration
+    function showSuccess() {
+      const msg = document.getElementById("download-success");
+      msg.style.display = "block";
+      gsap.fromTo(msg, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" });
+      
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#2563eb', '#facc15', '#ffffff']
       });
+
+      setTimeout(() => {
+        gsap.to(msg, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => msg.style.display = "none" });
+      }, 3000);
     }
 
-    const backHome = document.getElementById("back-home");
-    if (backHome) {
-      backHome.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.getElementById("downloads-page").classList.remove("active");
-        document.getElementById("main-content").style.display = "block";
-        gsap.from("#main-content", { opacity: 0, duration: 1.2, ease: "power4.out" });
-      });
-    }
+    document.getElementById("main-download-btn").addEventListener("click", showSuccess);
 
-    function scrollToServices() {
-      const target = document.getElementById("services");
-      if (!target) return;
-      try { gsap.to(window, { duration: 1.0, scrollTo: { y: target, offsetY: 80 } }); }
-      catch (e) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy(0, -72); }
-    }
-
-    document.getElementById("hero-explore").addEventListener("click", (e) => { e.preventDefault(); scrollToServices(); });
-    document.getElementById("explore-fab").addEventListener("click", (e) => { e.preventDefault(); scrollToServices(); });
-
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-    if (menuToggle) {
-      menuToggle.addEventListener("click", () => {
-        const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-        menuToggle.setAttribute("aria-expanded", String(!expanded));
-        mobileMenu.classList.toggle("hidden");
-      });
-    }
-
-    if (typeof gsap !== 'undefined' && typeof gsap.to === 'function' && !gsap.plugins || !gsap.plugins.scrollTo) {
-      gsap.utils.toArray = gsap.utils ? gsap.utils.toArray : function(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); };
-      gsap.to(window, {duration: 0, onComplete: function(){}});
-    }
-
-    document.getElementById("explore-fab").addEventListener("keyup", (e) => { if (e.key === "Enter" || e.key === " ") scrollToServices(); });
-
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href && href.length > 1) {
-          const target = document.querySelector(href);
-          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => window.scrollBy(0, -72), 300); }
+    // Back to Home Logic
+    function returnToHome() {
+      gsap.to("#downloads-page", { 
+        opacity: 0, 
+        duration: 0.5, 
+        onComplete: () => {
+          document.getElementById("downloads-page").style.display = "none";
+          document.body.classList.remove("no-scroll");
+          document.getElementById("main-content").style.display = "block";
+          gsap.to("#main-content", { opacity: 1, duration: 0.8 });
         }
       });
+    }
+
+    document.getElementById("back-home").addEventListener("click", (e) => {
+      e.preventDefault();
+      returnToHome();
     });
   </script>
 </body>
